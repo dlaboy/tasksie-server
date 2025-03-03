@@ -1,0 +1,59 @@
+# .gitignore for both Backend (NestJS) and Frontend (Next.js)
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+debug.log
+
+# Editor settings
+.vscode/
+.idea/
+.DS_Store
+
+# Backend build artifacts
+# server/dist/
+# server/coverage/
+# server/tmp/
+# server/.cache/
+# server/*.tsbuildinfo
+
+# Ensure server directory is not ignored
+doc/
+!.gitkeep
+# server/
+
+# Frontend build artifacts
+client/.next/
+client/out/
+client/.cache/
+client/.vercel/
+client/.turbo/
+
+# Testing
+# server/junit.xml
+# server/coverage/
+client/junit.xml
+client/coverage/
+
+# Misc
+*.swp
+*.swo
