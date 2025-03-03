@@ -1,85 +1,122 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Project Setup Guide
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This guide will walk you through setting up and running both the **frontend** (Next.js) and **backend** (NestJS) of this project. Ensure you have the required dependencies installed before proceeding.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## **1. Prerequisites**
+Before running the project, make sure you have the following installed:
+- **Node.js (LTS version recommended)**
+- **PostgreSQL** (For the database)
+- **Docker** (Optional, for running PostgreSQL easily)
+- **Git** (For cloning the repository)
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## **2. Clone the Repository**
+```sh
+# Clone the project
+git clone https://github.com/YOUR_REPO_URL.git
 
-## Project setup
-
-```bash
-$ npm install
+# Navigate into the project folder
+cd YOUR_PROJECT_FOLDER
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+## **3. Backend Setup (NestJS) - Located in `server/`**
+### **3.1 Install Dependencies**
+```sh
+cd server
+npm install
 ```
 
-## Run tests
+### **3.2 Configure Environment Variables**
+Create a `.env` file inside the `server/` folder and add the following:
+```
+PORT=5000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=password
+DB_NAME=test_db
+JWT_SECRET=d0cvn28bmd41ueiqd8a#023n9da89&
+```
+Modify the values as needed based on your PostgreSQL setup.
 
-```bash
-# unit tests
-$ npm run test
+### **3.3 Run Database (Docker Option)**
+If you have Docker installed, you can quickly start a PostgreSQL instance:
+```sh
+docker run --name postgres-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=test_db -p 5432:5432 -d postgres
+```
+Otherwise, create a **PostgreSQL database manually** with the same credentials.
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### **3.4 Run Migrations & Seed Data**
+```sh
+npm run migration:run  # Ensure the database tables are created
+psql -U postgres -d test_db -a -f dummy_test_data.sql  # Load test data (if needed)
 ```
 
-## Resources
+### **3.5 Start the Backend Server**
+```sh
+npm run start:dev
+```
+The backend should now be running at **http://localhost:5000**.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## **4. Frontend Setup (Next.js) - Located in `client/`**
+### **4.1 Install Dependencies**
+```sh
+cd ../client
+npm install
+```
 
-## Support
+### **4.2 Configure Environment Variables**
+Create a `.env.local` file inside `client/` and add:
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
+```
+This ensures the frontend communicates with the backend.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### **4.3 Start the Frontend Server**
+```sh
+npm run dev
+```
+The frontend should now be running at **http://localhost:3000**.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## **5. Testing Instructions**
+### **5.1 Run Backend Tests (Unit & Integration)**
+```sh
+cd server
+npm run test
+```
 
-## License
+### **5.2 Run Frontend UI Tests**
+```sh
+cd ../client
+npm run test
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### **5.3 Run Performance & Security Tests**
+- **JMeter:** Load test by running the `.jmx` file in Apache JMeter.
+- **OWASP ZAP:** Scan API endpoints for vulnerabilities.
+
+---
+
+## **6. Common Issues & Troubleshooting**
+### **Backend Issues:**
+- ❌ **Port in use?** → Change `PORT` in `.env` and restart.
+- ❌ **Database connection failing?** → Check PostgreSQL credentials in `.env`.
+
+### **Frontend Issues:**
+- ❌ **API not connecting?** → Ensure the backend is running and `NEXT_PUBLIC_API_BASE_URL` is correct.
+
+---
+
+## **7. Notes for Candidates**
+✅ **Everything is pre-configured** – just follow the steps above.
+✅ **No need to modify project structure** – focus on testing!
+✅ **If you get stuck, check the troubleshooting section**.
+
+🚀 **Good luck with the interview!**
