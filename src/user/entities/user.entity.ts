@@ -13,8 +13,9 @@ export class User {
   @Column()
   password: string;
 
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+  // @BeforeInsert()
+  // async hashPassword() {
+  //   console.log("HASHING")
+  //   this.password = await bcrypt.hash(this.password, 10);
+  // }
 }
