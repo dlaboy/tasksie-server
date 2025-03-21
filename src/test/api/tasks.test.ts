@@ -28,7 +28,7 @@ describe('TasksController (e2e)', () => {
           database: ':memory:', // ✅ In-Memory Database
           entities: [Task, User],
           synchronize: true, // ✅ Auto-create tables
-          logging: true, // ✅ Log SQL queries
+          // logging: true, // ✅ Log SQL queries
         }),
         TypeOrmModule.forFeature([Task]), // ✅ Register Task entity for repository
       ],
@@ -60,19 +60,20 @@ describe('TasksController (e2e)', () => {
   });
 
   // 🟢 CREATE TASK
-  // it('POST /tasks - should create a new task', async () => {
-  //   const mockTask = { id: 1, title: 'Test Task', description: 'Test Description' , userId:1};
-  //   tasksService.create.mockResolvedValue(mockTask);
+  it('POST /tasks - should create a new task', async () => {
+    const mockTask = { id: 1, title: 'Test Task', description: 'Test Description' , userId:1};
+    tasksService.create.mockResolvedValue(mockTask);
 
-  //   await request(app.getHttpServer())
-  //     .post('/tasks')
-  //     .send({title: 'Test Task', description: 'Test Description' , userId:1})
-  //     .expect(200) // ✅ Expect 200 OK
-  //   .expect(mockTask);
-  //   const tasks = await dataSource.getRepository(Task).find();
+    const response = await request(app.getHttpServer())
+      .post('/tasks')
+      .send({title: 'Test Task', description: 'Test Description' , userId:1})
+      .expect(200) // ✅ Expect 200 OK
+    .expect(mockTask);
+    const tasks = await dataSource.getRepository(Task).find();
 
-  //   // console.log('Current Tasks in DB:', tasks); // Logs current DB state
-  // });
+    console.log(response.statusCode)
+    console.log('Current Tasks in DB:', tasks); // Logs current DB state
+  });
 
   // // 🟢 GET ALL TASKS
   // it('GET /tasks - should return all tasks', async () => {
