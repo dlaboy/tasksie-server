@@ -6,6 +6,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './user/entities/user.entity';
 import { Task } from './tasks/entities/task.entity';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { Task } from './tasks/entities/task.entity';
     TypeOrmModule.forFeature([User, Task]),
     UserModule,
     AuthModule,
-    TasksModule,
+    TasksModule,    
+
   ],
 })
 export class AppModule {}

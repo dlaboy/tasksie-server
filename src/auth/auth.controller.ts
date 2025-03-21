@@ -34,28 +34,38 @@
 // }
 
 // Auth Controller
-import { Controller, Post, Body, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Request, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  register(@Body() body) {
-    return this.authService.register(body.email, body.password);
+  @HttpCode(200)
+  async register(@Body() body) {
+    return await this.authService.register(body.email, body.password);
   }
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('login')
-  login(@Request() req) {
-    return this.authService.login(req.user);
+  @HttpCode(200)
+  async login(@Request() req) {
+    return await this.authService.login(req.body.user);
+  }
+  // @UseGuards(LocalAuthGuard)
+  @Post('logout')
+  @HttpCode(200)
+  async logout(@Request() req) {
+    return await this.authService.logout();
   }
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('me')
-  getProfile(@Request() req) {
+  @HttpCode(200)
+  async getProfile(@Request() req) {
     return req.user;
   }
 }
