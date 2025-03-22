@@ -71,7 +71,7 @@ describe('AuthTest', () => {
   it('POST /auth/register - should register a user', async () => {
     const response = await authService.register('test@example.com','password123')
     console.log(response)   
-  });
+  },1000);
   // Login route
   it('POST /auth/login - should return a JWT token', async () => {
     const response = await authService.login({email:'test@example.com',password:'password123'})
