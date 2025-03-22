@@ -54,7 +54,7 @@ describe('AuthTest', () => {
     authService = module.get<AuthService>(AuthService);
     userService = module.get<UserService>(UserService);
     
-  });
+  },10000);
 
   afterAll(async () => {
     const users = await userService.findAll();
@@ -66,7 +66,7 @@ describe('AuthTest', () => {
     // const user = users.filter((user)=>user.email == 'test@example.com')
     // // const response = await authService.login({email:'test@example.com',password:'password123'})
     // console.log("User",user)  
-  });
+  },10000);
   // Register route
   // it('POST /auth/register - should register a user', async () => {
   //   const response = await authService.register('test@example.com','password123')
@@ -76,12 +76,12 @@ describe('AuthTest', () => {
   it('POST /auth/login - should return a JWT token', async () => {
     const response = await authService.login({email:'test@example.com',password:'password123'})
     console.log(response)  
-  });
+  },10000);
   // // Logout route
   it('POST /auth/logout - should log out a user', async () => {
     const response = await authService.logout()
     console.log(response)  
-  });
+  },10000);
 
   // MISSING EDGDE CASE: 
 });

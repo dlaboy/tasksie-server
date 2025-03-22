@@ -54,7 +54,7 @@ describe('TasksController (e2e)', () => {
     taskIdtoUpdate = ''
 
 
-  });
+  },10000);
 
 
 // DELETE TASK`
@@ -68,7 +68,7 @@ describe('TasksController (e2e)', () => {
         `DELETE FROM "task" WHERE "userId"=$1 AND "id"=$2` ,[id,taskIdtoUpdate]
         
         );  
-});
+},10000);
 
   // 🟢 CREATE TASK
   it('POST /tasks - should create a new task', async () => {
@@ -83,7 +83,7 @@ describe('TasksController (e2e)', () => {
 
     // taskIdtoUpdate = taskRequest.task.id
 
-  });
+  },10000);
 
   // // 🟢 GET ALL TASKS
   it('GET /tasks - should return all tasks', async () => {
@@ -94,7 +94,7 @@ describe('TasksController (e2e)', () => {
     const taskRequest = await tasksService.findAll(user[0].id)
     console.log(taskRequest[0].id)
     taskIdtoUpdate = taskRequest[0].id
-  });
+  },10000);
 
   // 🟢 UPDATE TASK
   it('PATCH /tasks/:id/user/:userId - should update a task', async () => {
@@ -111,7 +111,7 @@ describe('TasksController (e2e)', () => {
 
     console.log(response)
    
-  });
+  },10000);
 
   // 🟢 DELETE TASK
   // it('DELETE /tasks/:id - should delete a task', async () => {

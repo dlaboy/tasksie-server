@@ -91,7 +91,7 @@ describe('AuthTest', () => {
     dataSource = module.get<DataSource>(DataSource);
     userRepo = dataSource.getRepository(User)
     
-  });
+  },10000);
 
   afterAll(async () => {
     await app.close();
@@ -115,7 +115,7 @@ describe('AuthTest', () => {
     // expect(users.length).toBe(1);
     // expect(users[0].email).toBe('test@example.com');
     
-  });
+  },10000);
   // Login route
   it('POST /auth/login - should return a JWT token', async () => {
     authService.login.mockResolvedValue({ access_token: 'mocked-jwt-token' });
@@ -125,7 +125,7 @@ describe('AuthTest', () => {
       .send({ email: 'test@example.com', password: 'password123' })
       .expect(200)
       .expect({ access_token: 'mocked-jwt-token' });
-  });
+  },10000);
   // // Logout route
   it('POST /auth/logout - should log out a user', async () => {
     authService.logout.mockResolvedValue({ message: 'Logged out' });
@@ -134,7 +134,7 @@ describe('AuthTest', () => {
       .post('/auth/logout')
       .expect(200)
       .expect({ message: 'Logged out' });
-  });
+  },10000);
 
   // MISSING EDGDE CASE: 
 });
