@@ -73,12 +73,6 @@ describe('TasksController (e2e)', () => {
   // 🟢 CREATE TASK
   it('POST /tasks - should create a new task', async () => {
     console.log("POST TASK")
-    await userService.create({
-      id:1,
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'testpassword'
-    });
     const users = await userService.findAll();
     const user = users.filter((user)=>user.email == 'test@example.com')
     console.log("User",user[0].id)  
