@@ -43,7 +43,8 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({ email, password: hashedPassword });
     await this.userRepository.save(user);
-    return { message: 'User registered successfully' };
+    console.log(user)
+    return { message: 'User registered successfully' , user:user};
   }
 
   async validateUser(email: string, password: string): Promise<any> {
