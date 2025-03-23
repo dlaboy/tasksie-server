@@ -46,6 +46,8 @@ export class AuthController {
   @Post('register')
   @HttpCode(200)
   async register(@Body() body) {
+    console.log("Body del user",body)
+
     return await this.authService.register(body.email, body.password);
   }
 
@@ -53,12 +55,13 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   async login(@Request() req) {
+    console.log("Request del user",req)
     return await this.authService.login(req.body.user);
   }
   // @UseGuards(LocalAuthGuard)
   @Post('logout')
   @HttpCode(200)
-  async logout(@Request() req) {
+  async logout(@Request() req) { 
     return await this.authService.logout();
   }
 
