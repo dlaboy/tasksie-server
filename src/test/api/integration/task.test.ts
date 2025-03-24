@@ -53,6 +53,8 @@ describe('TasksController (e2e)', () => {
     taskIdtoUpdate = ''
 
 
+
+
   },10000);
 
 
@@ -68,9 +70,13 @@ describe('TasksController (e2e)', () => {
         
         );  
 },10000);
+it('POST /register - should create a new user', async () => {  
+  const response = await authService.register('test@example.com','password123')
+  console.log(response) 
+},10000);
 
-  // 🟢 CREATE TASK
-  it('POST /tasks - should create a new task', async () => {
+  // CREATE TASK
+  it('POST /tasks - should create a new task', async () => {  
     console.log("POST TASK")
     const users = await userService.findAll();
     const user = users.filter((user)=>user.email == 'test@example.com')

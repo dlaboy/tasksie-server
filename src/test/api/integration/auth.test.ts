@@ -31,7 +31,7 @@ describe('AuthTest', () => {
             entities: [Task, User],
             synchronize: true, 
           }),
-          TypeOrmModule.forFeature([User]), // ✅ Register Task entity for repository
+          TypeOrmModule.forFeature([User]), // Register Task entity for repository
           JwtModule.register({
             secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '1h' },
@@ -57,12 +57,12 @@ describe('AuthTest', () => {
   },10000);
   // Register route
   it('POST /auth/register - should register a user', async () => {
-    const response = await authService.register('test@example.com','password123')
+    const response = await authService.register('test1@example.com','password123')
     console.log(response)   
-  },1000);
+  },10000);
   // Login route
   it('POST /auth/login - should return a JWT token', async () => {
-    const response = await authService.login({email:'test@example.com',password:'password123'})
+    const response = await authService.login({email:'test1@example.com',password:'password123'})
     console.log(response)  
   },10000);
   // // Logout route
