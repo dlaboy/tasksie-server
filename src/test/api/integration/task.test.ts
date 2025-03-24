@@ -31,10 +31,9 @@ describe('TasksController (e2e)', () => {
                   password: String(process.env.DB_PASS),
                   database: process.env.DB_NAME,
                   entities: [Task, User],
-                  synchronize: true, // ✅ Auto-create tables
-                  // logging: true, // ✅ Log SQL queries
+                  synchronize: true, 
                 }),
-                TypeOrmModule.forFeature([Task,User]), // ✅ Register Task entity for repository
+                TypeOrmModule.forFeature([Task,User]), 
                 JwtModule.register({
                   secret: process.env.JWT_SECRET,
                   signOptions: { expiresIn: '1h' },
@@ -80,12 +79,9 @@ describe('TasksController (e2e)', () => {
     console.log(taskRequest)
     const taskRequest2 = await tasksService.create({title:"Test task 2",description:"This is a test task 2"},user[0].id)
     console.log(taskRequest2)
-
-    // taskIdtoUpdate = taskRequest.task.id
-
   },10000);
 
-  // // 🟢 GET ALL TASKS
+  // // GET ALL TASKS
   it('GET /tasks - should return all tasks', async () => {
     console.log("GET ALL TASK")
     const users = await userService.findAll();
@@ -96,7 +92,7 @@ describe('TasksController (e2e)', () => {
     taskIdtoUpdate = taskRequest[0].id
   },10000);
 
-  // 🟢 UPDATE TASK
+  // UPDATE TASK
   it('PATCH /tasks/:id/user/:userId - should update a task', async () => {
     console.log("UPDATE TASK")
     const users = await userService.findAll();
@@ -113,16 +109,6 @@ describe('TasksController (e2e)', () => {
    
   },10000);
 
-  // 🟢 DELETE TASK
-  // it('DELETE /tasks/:id - should delete a task', async () => {
-  //   tasksService.remove.mockResolvedValue({ message: 'Task deleted' });
-
-  //   await request(app.getHttpServer())
-  //     .delete('/tasks/1')
-  //     .expect(200) // ✅ Expect 200 OK
-  //     .expect({ message: 'Task deleted' });
-  // });
-
-  // MISSING EDGDE CASE: Like trying to create a task without a title
+ 
   
 });

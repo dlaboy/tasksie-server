@@ -12,34 +12,6 @@ import { Task } from 'src/tasks/entities/task.entity';
 import { DataSource, Repository } from 'typeorm';
 
 describe('AuthTest', () => {
-  // let controller: AuthController;
-
-  // beforeEach(async () => {
-  //   const module: TestingModule = await Test.createTestingModule({
-  //     controllers: [AuthController],
-  //     providers: [
-  //       AuthService,
-  //       JwtService,
-  //       {
-  //         provide: getRepositoryToken(User),
-  //         useValue: {
-  //           findOne: jest.fn(),
-  //           save: jest.fn(),
-  //         },
-  //       },
-  //     ],
-  //   }).compile();
-
-  //   controller = module.get<AuthController>(AuthController);
-  // });
-
-  // it('should be defined', () => {
-  //   expect(controller).toBeDefined();
-  // });
-
-
-
-  // Unit tests: Authentication endpoints
   let app: INestApplication;
   let authService = {
     register: jest.fn(),
@@ -49,19 +21,16 @@ describe('AuthTest', () => {
   let dataSource: DataSource;
   let userRepo: Repository<User>;
 
-  
-
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
           TypeOrmModule.forRoot({
             type: 'sqlite',
-            database: ':memory:', // ✅ In-Memory Database
+            database: ':memory:', 
             entities: [Task, User],
-            synchronize: true, // ✅ Auto-create tables
-            // logging: true, // ✅ Log SQL queries
+            synchronize: true, 
           }),
-          TypeOrmModule.forFeature([User]), // ✅ Register Task entity for repository
+          TypeOrmModule.forFeature([User]), 
         ],
       controllers: [AuthController],
       providers: [
@@ -77,11 +46,10 @@ describe('AuthTest', () => {
           provide: JwtService,
           useValue: {
             sign: jest.fn(() => 'mocked-jwt-token'),
-            // verify: jest.fn(() => ({ userId: 1 })),
           },
         },
       ],
-    }).overrideGuard(LocalAuthGuard) // 👈 Mock the LocalAuthGuard
+    }).overrideGuard(LocalAuthGuard) // Mock the LocalAuthGuard
     .useValue({ canActivate: jest.fn(() => true) })
     .compile();
 
@@ -110,10 +78,7 @@ describe('AuthTest', () => {
     console.log(response.statusCode)
     const users = await userRepo.find();
 
-    console.log('Current Users in DB:', users); // Logs current DB state
-
-    // expect(users.length).toBe(1);
-    // expect(users[0].email).toBe('test@example.com');
+    console.log('Current Users in DB:', users);
     
   },10000);
   // Login route
@@ -126,7 +91,7 @@ describe('AuthTest', () => {
       .expect(200)
       .expect({ access_token: 'mocked-jwt-token' });
   },10000);
-  // // Logout route
+  // Logout route
   it('POST /auth/logout - should log out a user', async () => {
     authService.logout.mockResolvedValue({ message: 'Logged out' });
 
@@ -135,6 +100,4 @@ describe('AuthTest', () => {
       .expect(200)
       .expect({ message: 'Logged out' });
   },10000);
-
-  // MISSING EDGDE CASE: 
 });

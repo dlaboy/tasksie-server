@@ -25,12 +25,11 @@ describe('TasksController (e2e)', () => {
       imports: [
         TypeOrmModule.forRoot({
           type: 'sqlite',
-          database: ':memory:', // ✅ In-Memory Database
+          database: ':memory:', 
           entities: [Task, User],
-          synchronize: true, // ✅ Auto-create tables
-          // logging: true, // ✅ Log SQL queries
+          synchronize: true, 
         }),
-        TypeOrmModule.forFeature([Task]), // ✅ Register Task entity for repository
+        TypeOrmModule.forFeature([Task]), 
       ],
       controllers: [TasksController],
       providers: [
@@ -44,7 +43,7 @@ describe('TasksController (e2e)', () => {
         },
       ],
     })
-      .overrideGuard(JwtAuthGuard) // 👈 Mock Authentication Guard
+      .overrideGuard(JwtAuthGuard) // Mock Authentication Guard
       .useValue({ canActivate: jest.fn(() => true) })
       .compile();
 
@@ -59,7 +58,7 @@ describe('TasksController (e2e)', () => {
     await app.close();
   });
 
-  // 🟢 CREATE TASK
+  // CREATE TASK
   it('POST /tasks - should create a new task', async () => {
     const mockTask = { id: 1, title: 'Test Task', description: 'Test Description' , userId:1};
     tasksService.create.mockResolvedValue(mockTask);
@@ -67,7 +66,7 @@ describe('TasksController (e2e)', () => {
     const response = await request(app.getHttpServer())
       .post('/tasks')
       .send({title: 'Test Task', description: 'Test Description' , userId:1})
-      .expect(200) // ✅ Expect 200 OK
+      .expect(200) // Expect 200 OK
     .expect(mockTask);
     const tasks = await dataSource.getRepository(Task).find();
 
@@ -75,18 +74,18 @@ describe('TasksController (e2e)', () => {
     console.log('Current Tasks in DB:', tasks); // Logs current DB state
   });
 
-  // // 🟢 GET ALL TASKS
+  // GET ALL TASKS
   it('GET /tasks - should return all tasks', async () => {
     const mockTasks = [{ id: 1, title: 'Test Task 1' ,userId:1}];
     tasksService.findAll.mockResolvedValue(mockTasks);
 
     await request(app.getHttpServer())
       .get('/tasks')
-      .expect(200) // ✅ Expect 200 OK
+      .expect(200) // Expect 200 OK
       .expect(mockTasks);
   });
 
-  // 🟢 UPDATE TASK
+  // UPDATE TASK
   it('PATCH /tasks/:id/user/:userId - should update a task', async () => {
     const updatedTask = { id: 1, title: 'Updated Task', description: 'Updated Description' ,userId:1};
     tasksService.update.mockResolvedValue(updatedTask);
@@ -94,20 +93,17 @@ describe('TasksController (e2e)', () => {
     await request(app.getHttpServer())
       .patch('/tasks/1/user/1')
       .send({ title: 'Updated Task', description: 'Updated Description' })
-      .expect(200) // ✅ Expect 200 OK
+      .expect(200) // Expect 200 OK
       .expect(updatedTask);
   });
 
-  // 🟢 DELETE TASK
+  // DELETE TASK
   it('DELETE /tasks/:id/user/:userId - should delete a task', async () => {
     tasksService.remove.mockResolvedValue({ message: 'Task deleted' });
 
     await request(app.getHttpServer())
       .delete('/tasks/1/user/1')
-      .expect(200) // ✅ Expect 200 OK
+      .expect(200) // Expect 200 OK
       .expect({ message: 'Task deleted' });
-  });
-
-  // MISSING EDGDE CASE: Like trying to create a task without a title
-  
+  });  
 });

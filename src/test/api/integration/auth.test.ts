@@ -29,8 +29,7 @@ describe('AuthTest', () => {
             password: String(process.env.DB_PASS),
             database: process.env.DB_NAME,
             entities: [Task, User],
-            synchronize: true, // ✅ Auto-create tables
-            // logging: true, // ✅ Log SQL queries
+            synchronize: true, 
           }),
           TypeOrmModule.forFeature([User]), // ✅ Register Task entity for repository
           JwtModule.register({
@@ -47,10 +46,6 @@ describe('AuthTest', () => {
       ],
     }).compile(); // 👈 Mock the LocalAuthGuard
     
-
-    // app = module.createNestApplication();
-    // await app.init();
-
     authService = module.get<AuthService>(AuthService);
     userService = module.get<UserService>(UserService);
     
@@ -59,13 +54,6 @@ describe('AuthTest', () => {
   afterAll(async () => {
     const users = await userService.findAll();
     console.log('Current Users in DB:', users); // Logs current DB state
-    // await userService['userRepository'].query(
-    //   `DELETE FROM "user" WHERE email = 'test@example.com'`
-      
-    // );  
-    // const user = users.filter((user)=>user.email == 'test@example.com')
-    // // const response = await authService.login({email:'test@example.com',password:'password123'})
-    // console.log("User",user)  
   },10000);
   // Register route
   it('POST /auth/register - should register a user', async () => {
@@ -82,6 +70,4 @@ describe('AuthTest', () => {
     const response = await authService.logout()
     console.log(response)  
   },10000);
-
-  // MISSING EDGDE CASE: 
 });
